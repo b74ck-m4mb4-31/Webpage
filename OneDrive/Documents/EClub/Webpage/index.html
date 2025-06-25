@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Project ENIGMA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: url('images/title-bg.webp') center/cover no-repeat, #1a1a1a;
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1;
+    }
+
+    header h1, header p {
+      position: relative;
+      z-index: 2;
+      max-width: 90%;
+      margin: 0 auto;
+    }
+
+    main {
+      padding: 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    #spiral-section {
+      position: relative;
+      height: 950px;
+      background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+      overflow: hidden;
+    }
+
+    #spiral-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    footer {
+      text-align: center;
+      background: #1a1a1a;
+      color: white;
+      padding: 15px;
+      width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Project ENIGMA</h1>
+    <p>A journey through cryptographic engineering</p>
+  </header>
+
+  <main>
+    <h1>Project Overview</h1>
+    <p>Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. 
+        “It’s not Latin, though it looks like it, and it actually says nothing,” Before & After magazine answered a curious reader, “Its ‘words’ loosely approximate the frequency with which letters occur in English, which is why at a glance it looks pretty real.”
+As Cicero would put it, “Um, not so fast.”
+The placeholder text, beginning with the line “Lorem ipsum dolor sit amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago, it was Latin.
+Richard McClintock, a Latin scholar from Hampden-Sydney College, is credited with discovering the source behind the ubiquitous filler text. In seeing a sample of lorem ipsum, his interest was piqued by consectetur—a genuine, albeit rare, Latin word.
+ Consulting a Latin dictionary led McClintock to a passage from De Finibus Bonorum et Malorum (“On the Extremes of Good and Evil”), a first-century B.C. text from the Roman philosopher Cicero.
+In particular, the garbled words of lorem ipsum bear an unmistakable resemblance to sections 1.10.32–33 of Cicero’s work, with the most notable passage excerpted below:
+“Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.”
+A 1914 English translation by Harris Rackham reads:
+“Nor is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure.”
+McClintock’s eye for detail certainly helped narrow the whereabouts of lorem ipsum’s origin, however, the “how and when” still remain something of a mystery, with competing theories and timelines.</p>
+  </main>
+
+  <!-- 3D Spiral Carousel Section -->
+  <section id="spiral-section">
+    <canvas id="spiral-canvas"></canvas>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Enigma Project | Created by [..]</p>
+  </footer>
+
+  <script type="module">
+    import * as THREE from 'https://unpkg.com/three@0.152.2/build/three.module.js';
+
+    const canvas = document.getElementById('spiral-canvas');
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.outputEncoding = THREE.sRGBEncoding;
+
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf9f9f9); 
+
+    const camera = new THREE.PerspectiveCamera(70, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 10);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.5));
+    const pointLight = new THREE.PointLight(0xffffff, 1.2, 50);
+    pointLight.position.set(5, 5, 5);
+    scene.add(pointLight);
+
+    const loader = new THREE.TextureLoader();
+    const woodTex = loader.load('images/wood-texture.jpg');
+    woodTex.encoding = THREE.sRGBEncoding;
+
+    function createEngravedLabelTexture(text, woodImage) {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      const wood = new Image();
+      wood.crossOrigin = 'anonymous';
+      wood.src = woodImage;
+
+      return new Promise(resolve => {
+        wood.onload = () => {
+          ctx.drawImage(wood, 0, 0, canvas.width, canvas.height);
+          ctx.fillStyle = 'rgba(255,255,255,0.95)';
+          ctx.font = 'bold 48px Courier New';
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+          ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+          const tex = new THREE.CanvasTexture(canvas);
+          tex.encoding = THREE.sRGBEncoding;
+          tex.needsUpdate = true;
+          resolve(tex);
+        };
+      });
+    }
+
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const clickable = [];
+    let scrollPct = 0;
+
+    const spiralSection = document.getElementById('spiral-section');
+    window.addEventListener('scroll', () => {
+      const rect = spiralSection.getBoundingClientRect();
+      const viewHeight = window.innerHeight;
+      const sectionHeight = spiralSection.offsetHeight;
+      const visibleTop = Math.max(0, -rect.top);
+      scrollPct = Math.min(1, visibleTop / (sectionHeight - viewHeight));
+    });
+
+    window.addEventListener('mousemove', e => {
+      mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
+      mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
+    });
+
+    window.addEventListener('click', () => {
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(clickable, true);
+      if (hits.length) {
+        let g = hits[0].object;
+        while (!clickable.includes(g)) g = g.parent;
+        window.location.href = g.userData.link;
+      }
+    });
+
+    const count = 8, radius = 2.2, gap = 1.2, angleStep = Math.PI * 2 / count;
+
+    (async () => {
+      for (let i = 0; i < count; i++) {
+        const labelTex = await createEngravedLabelTexture(`Week ${i + 1}`, 'images/wood-texture.jpg');
+
+        const group = new THREE.Group();
+
+        // const glow = new THREE.Mesh(
+        //   new THREE.BoxGeometry(0.05, 0.05, 0.05),
+        //   new THREE.MeshStandardMaterial({
+        //     emissive: new THREE.Color(0xffaa33),
+        //     emissiveIntensity: 0.8,
+        //     color: 0x332200
+        //   })
+        // );
+        // glow.position.z = -0.1;
+        // group.add(glow);
+
+        const sideMat = new THREE.MeshStandardMaterial({ map: woodTex, metalness: 0.2, roughness: 0.8 });
+        const labelMat = new THREE.MeshStandardMaterial({ map: labelTex, metalness: 0.2, roughness: 0.8 });
+
+        const box = new THREE.Mesh(
+          new THREE.BoxGeometry(1.2, 0.8, 0.3),
+          [sideMat, sideMat, sideMat, sideMat, labelMat, sideMat]
+        );
+        group.add(box);
+
+        const ang = i * angleStep;
+        const y = -i * gap + 0.5;
+        group.position.set(Math.sin(ang) * radius, y, Math.cos(ang) * radius);
+        group.lookAt(0, y, 0);
+        group.rotateY(Math.PI);
+
+        group.userData.link = `week${i + 1}.html`;
+        scene.add(group);
+        clickable.push(group);
+      }
+    })();
+
+    function animate() {
+      pointLight.intensity = 0.6 + Math.random() * 0.3;
+      const ang = scrollPct * Math.PI * 2;
+      const y = -scrollPct * count * gap;
+      camera.position.set(Math.sin(ang) * (radius + 3), y, Math.cos(ang) * (radius + 3));
+      camera.lookAt(0, y, 0);
+
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(clickable, true);
+      // clickable.forEach(g => g.children[0].material.emissiveIntensity = 0.8);
+      // if (hits.length) {
+      //   let g = hits[0].object;
+      //   while (!clickable.includes(g)) g = g.parent;
+      //   g.children[0].material.emissiveIntensity = 1.5;
+      // }
+
+      clickable.forEach(g => {
+  g.scale.set(1, 1, 1); // Reset scale
+  g.children[0].material.emissiveIntensity = 0.8; // Reset glow
+});
+
+if (hits.length) {
+  let g = hits[0].object;
+  while (!clickable.includes(g)) g = g.parent;
+  
+  
+  g.scale.set(1.1, 1.1, 1.1);
+
+  // Brighten glow
+  g.children[0].material.emissiveIntensity = 1.5;
+}
+
+
+
+      renderer.render(scene, camera);
+      requestAnimationFrame(animate);
+    }
+    animate();
+
+    window.addEventListener('resize', () => {
+      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    });
+  </script>
+
+</body>
+</html>
