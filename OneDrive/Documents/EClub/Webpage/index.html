@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Project ENIGMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;700&display=swap" rel="stylesheet">
   <style>
     * {
       margin: 0;
@@ -12,45 +13,69 @@
     }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f9f9f9;
-      color: #333;
+      font-family: 'IBM Plex Mono', monospace;
+      background: #0c0c0c url('https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+      background-size: cover;
+      color: #e0e0e0;
       overflow-x: hidden;
     }
 
     header {
-      background: url('images/title-bg.webp') center/cover no-repeat, #1a1a1a;
+      background: rgba(0, 0, 0, 0.75);
       color: white;
-      padding: 60px 20px;
+      padding: 80px 20px 60px;
       text-align: center;
       position: relative;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    header::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background-color: rgba(0, 0, 0, 0.6);
-      z-index: 1;
+    header h1 {
+      font-size: 3em;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px rgba(255,255,255,0.1);
     }
 
-    header h1, header p {
-      position: relative;
-      z-index: 2;
-      max-width: 90%;
-      margin: 0 auto;
+    header p {
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #aaa;
     }
 
     main {
-      padding: 20px;
+      padding: 40px 20px;
       max-width: 900px;
-      margin: auto;
+      margin: 40px auto;
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 16px;
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.6), inset 0 0 1px rgba(255, 255, 255, 0.3);
+      transition: transform 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+    }
+
+    main:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.7), inset 0 0 1px rgba(255, 255, 255, 0.3);
+    }
+
+    main h1 {
+      font-size: 2em;
+      margin-bottom: 15px;
+      color: #ffd54f;
+      text-align: center;
+    }
+
+    main p {
+      line-height: 1.7;
+      font-size: 1.05em;
+      text-align: justify;
     }
 
     #spiral-section {
       position: relative;
       height: 950px;
-      background: linear-gradient(to bottom, #f9f9f9, #e0e0e0);
+      background: inherit;
       overflow: hidden;
     }
 
@@ -65,10 +90,10 @@
 
     footer {
       text-align: center;
-      background: #1a1a1a;
-      color: white;
+      background: #111;
+      color: #aaa;
       padding: 15px;
-      width: 100%;
+      font-size: 0.95em;
     }
   </style>
 </head>
@@ -81,20 +106,11 @@
 
   <main>
     <h1>Project Overview</h1>
-    <p>Until recently, the prevailing view assumed lorem ipsum was born as a nonsense text. 
-        “It’s not Latin, though it looks like it, and it actually says nothing,” Before & After magazine answered a curious reader, “Its ‘words’ loosely approximate the frequency with which letters occur in English, which is why at a glance it looks pretty real.”
-As Cicero would put it, “Um, not so fast.”
-The placeholder text, beginning with the line “Lorem ipsum dolor sit amet, consectetur adipiscing elit”, looks like Latin because in its youth, centuries ago, it was Latin.
-Richard McClintock, a Latin scholar from Hampden-Sydney College, is credited with discovering the source behind the ubiquitous filler text. In seeing a sample of lorem ipsum, his interest was piqued by consectetur—a genuine, albeit rare, Latin word.
- Consulting a Latin dictionary led McClintock to a passage from De Finibus Bonorum et Malorum (“On the Extremes of Good and Evil”), a first-century B.C. text from the Roman philosopher Cicero.
-In particular, the garbled words of lorem ipsum bear an unmistakable resemblance to sections 1.10.32–33 of Cicero’s work, with the most notable passage excerpted below:
-“Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat voluptatem.”
-A 1914 English translation by Harris Rackham reads:
-“Nor is there anyone who loves or pursues or desires to obtain pain of itself, because it is pain, but occasionally circumstances occur in which toil and pain can procure him some great pleasure.”
-McClintock’s eye for detail certainly helped narrow the whereabouts of lorem ipsum’s origin, however, the “how and when” still remain something of a mystery, with competing theories and timelines.</p>
+    <p>
+      This project is a tribute to the legendary Enigma machine—reimagined as an interactive experience that blends history, embedded systems, and creative interface design. Explore multiple modules, from simulated cipher machines to interactive encryption puzzles, and engage with the art and science of codebreaking.
+    </p>
   </main>
 
-  <!-- 3D Spiral Carousel Section -->
   <section id="spiral-section">
     <canvas id="spiral-canvas"></canvas>
   </section>
@@ -103,19 +119,20 @@ McClintock’s eye for detail certainly helped narrow the whereabouts of lorem i
     <p>&copy; 2025 Enigma Project | Created by [..]</p>
   </footer>
 
+  <!-- Three.js animation script -->
   <script type="module">
     import * as THREE from 'https://unpkg.com/three@0.152.2/build/three.module.js';
 
     const canvas = document.getElementById('spiral-canvas');
     const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+    renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.outputEncoding = THREE.sRGBEncoding;
+    renderer.outputColorSpace = THREE.SRGBColorSpace;
 
     const scene = new THREE.Scene();
-    scene.background = new THREE.Color(0xf9f9f9); 
+    scene.background = null;
 
-    const camera = new THREE.PerspectiveCamera(70, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+    const camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 0.1, 100);
     camera.position.set(0, 0, 10);
 
     scene.add(new THREE.AmbientLight(0xffffff, 0.5));
@@ -123,34 +140,31 @@ McClintock’s eye for detail certainly helped narrow the whereabouts of lorem i
     pointLight.position.set(5, 5, 5);
     scene.add(pointLight);
 
-    const loader = new THREE.TextureLoader();
-    const woodTex = loader.load('images/wood-texture.jpg');
-    woodTex.encoding = THREE.sRGBEncoding;
+    const woodTex = new THREE.TextureLoader().load("images/wood-texture.jpg");
+    woodTex.colorSpace = THREE.SRGBColorSpace;
 
-    function createEngravedLabelTexture(text, woodImage) {
+    function createEngravedLabelTexture(text) {
       const canvas = document.createElement('canvas');
       canvas.width = 512;
       canvas.height = 256;
       const ctx = canvas.getContext('2d');
-      const wood = new Image();
-      wood.crossOrigin = 'anonymous';
-      wood.src = woodImage;
 
-      return new Promise(resolve => {
-        wood.onload = () => {
-          ctx.drawImage(wood, 0, 0, canvas.width, canvas.height);
-          ctx.fillStyle = 'rgba(255,255,255,0.95)';
-          ctx.font = 'bold 48px Courier New';
-          ctx.textAlign = 'center';
-          ctx.textBaseline = 'middle';
-          ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+      const gradient = ctx.createLinearGradient(0, 0, canvas.width, 0);
+      gradient.addColorStop(0, '#8B4513');
+      gradient.addColorStop(0.5, '#A0522D');
+      gradient.addColorStop(1, '#8B4513');
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-          const tex = new THREE.CanvasTexture(canvas);
-          tex.encoding = THREE.sRGBEncoding;
-          tex.needsUpdate = true;
-          resolve(tex);
-        };
-      });
+      ctx.fillStyle = 'rgba(255,255,255,0.95)';
+      ctx.font = 'bold 40px Courier New';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, canvas.width / 2, canvas.height / 2);
+
+      const tex = new THREE.CanvasTexture(canvas);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      return tex;
     }
 
     const raycaster = new THREE.Raycaster();
@@ -178,29 +192,33 @@ McClintock’s eye for detail certainly helped narrow the whereabouts of lorem i
       if (hits.length) {
         let g = hits[0].object;
         while (!clickable.includes(g)) g = g.parent;
-        window.location.href = g.userData.link;
+        g.scale.set(1.3, 1.3, 1.3);
+        setTimeout(() => window.location.href = g.userData.link, 200);
       }
     });
 
-    const count = 8, radius = 2.2, gap = 1.2, angleStep = Math.PI * 2 / count;
+    const customLabels = [
+      { label: 'Introduction', link: 'introduction.html' },
+      { label: 'Design', link: 'design.html' },
+      { label: 'Hardware Design', link: 'hardware.html' },
+      { label: 'Software Design', link: 'software.html' },
+      { label: 'Result', link: 'result.html' },
+      { label: 'Conclusion', link: 'conclusion.html' },
+      { label: 'Appendix', link: 'appendix.html' },
+      { label: 'Team', link: 'team.html' }
+    ];
+
+    const count = customLabels.length;
+    const radius = 2.2;
+    const gap = 1.2;
+    const angleStep = Math.PI * 2 / count;
 
     (async () => {
       for (let i = 0; i < count; i++) {
-        const labelTex = await createEngravedLabelTexture(`Week ${i + 1}`, 'images/wood-texture.jpg');
+        const labelText = customLabels[i].label;
+        const labelTex = createEngravedLabelTexture(labelText);
 
         const group = new THREE.Group();
-
-        // const glow = new THREE.Mesh(
-        //   new THREE.BoxGeometry(0.05, 0.05, 0.05),
-        //   new THREE.MeshStandardMaterial({
-        //     emissive: new THREE.Color(0xffaa33),
-        //     emissiveIntensity: 0.8,
-        //     color: 0x332200
-        //   })
-        // );
-        // glow.position.z = -0.1;
-        // group.add(glow);
-
         const sideMat = new THREE.MeshStandardMaterial({ map: woodTex, metalness: 0.2, roughness: 0.8 });
         const labelMat = new THREE.MeshStandardMaterial({ map: labelTex, metalness: 0.2, roughness: 0.8 });
 
@@ -216,14 +234,14 @@ McClintock’s eye for detail certainly helped narrow the whereabouts of lorem i
         group.lookAt(0, y, 0);
         group.rotateY(Math.PI);
 
-        group.userData.link = `week${i + 1}.html`;
+        group.userData.link = customLabels[i].link;
         scene.add(group);
         clickable.push(group);
       }
     })();
 
     function animate() {
-      pointLight.intensity = 0.6 + Math.random() * 0.3;
+      pointLight.intensity = 0.6 + Math.sin(Date.now() * 0.002) * 0.3;
       const ang = scrollPct * Math.PI * 2;
       const y = -scrollPct * count * gap;
       camera.position.set(Math.sin(ang) * (radius + 3), y, Math.cos(ang) * (radius + 3));
@@ -231,30 +249,18 @@ McClintock’s eye for detail certainly helped narrow the whereabouts of lorem i
 
       raycaster.setFromCamera(mouse, camera);
       const hits = raycaster.intersectObjects(clickable, true);
-      // clickable.forEach(g => g.children[0].material.emissiveIntensity = 0.8);
-      // if (hits.length) {
-      //   let g = hits[0].object;
-      //   while (!clickable.includes(g)) g = g.parent;
-      //   g.children[0].material.emissiveIntensity = 1.5;
-      // }
 
       clickable.forEach(g => {
-  g.scale.set(1, 1, 1); // Reset scale
-  g.children[0].material.emissiveIntensity = 0.8; // Reset glow
-});
+        g.scale.set(1, 1, 1);
+        g.children[0].material.emissiveIntensity = 0.8;
+      });
 
-if (hits.length) {
-  let g = hits[0].object;
-  while (!clickable.includes(g)) g = g.parent;
-  
-  
-  g.scale.set(1.1, 1.1, 1.1);
-
-  // Brighten glow
-  g.children[0].material.emissiveIntensity = 1.5;
-}
-
-
+      if (hits.length) {
+        let g = hits[0].object;
+        while (!clickable.includes(g)) g = g.parent;
+        g.scale.set(1.15, 1.15, 1.15);
+        g.children[0].material.emissiveIntensity = 1.8;
+      }
 
       renderer.render(scene, camera);
       requestAnimationFrame(animate);
@@ -262,11 +268,10 @@ if (hits.length) {
     animate();
 
     window.addEventListener('resize', () => {
-      camera.aspect = canvas.clientWidth / canvas.clientHeight;
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+      renderer.setSize(window.innerWidth, window.innerHeight);
     });
   </script>
-
 </body>
 </html>

@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hardware Design – Project ENIGMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: linear-gradient(130deg, #0f0f1b, #1a1a2e, #16213e, #0f3460);
+      background-size: 600% 600%;
+      animation: bgShift 30s ease infinite;
+      color: #e0e0e0;
+      overflow-x: hidden;
+    }
+
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    header h1 {
+      font-size: 2.6em;
+      color: #ffe082;
+      text-shadow: 0 0 10px rgba(255,255,255,0.2);
+    }
+
+    header p {
+      font-size: 1.2em;
+      color: #bbb;
+      margin-top: 10px;
+    }
+
+    main {
+      max-width: 960px;
+      margin: 40px auto;
+      padding: 40px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4), inset 0 0 1px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      transition: all 0.4s ease;
+    }
+
+    main:hover {
+      transform: scale(1.01);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 50px rgba(0, 255, 255, 0.15);
+    }
+
+    main h2 {
+      color: #ffca28;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+    }
+
+    main p, main ul {
+      font-size: 1.05em;
+      line-height: 1.7;
+      color: #ddd;
+    }
+
+    main ul {
+      padding-left: 20px;
+      list-style: square;
+    }
+
+    .image-gallery {
+      margin-top: 30px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .image-gallery figure {
+      max-width: 420px;
+    }
+
+    .image-gallery img {
+      width: 100%;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+      transition: transform 0.3s ease;
+    }
+
+    .image-gallery img:hover {
+      transform: scale(1.05);
+    }
+
+    .image-gallery figcaption {
+      text-align: center;
+      color: #aaa;
+      font-size: 0.9em;
+      margin-top: 8px;
+    }
+
+    .floating-nav {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 1000;
+    }
+
+    .floating-nav a {
+      background-color: #ff6f61;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.4);
+      transition: background 0.3s ease, transform 0.2s ease;
+    }
+
+    .floating-nav a:hover {
+      background-color: #ff3b2e;
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.85);
+      color: #bbb;
+      padding: 20px;
+      font-size: 0.95em;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .floating-nav {
+        flex-direction: column;
+        right: 10px;
+        bottom: 10px;
+      }
+      .floating-nav a {
+        padding: 10px 16px;
+        font-size: 0.9em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Hardware Design – Project ENIGMA</h1>
+    <p>Engineering the Physical Interface</p>
+  </header>
+
+  <main>
+    <h2>🛠 Overview</h2>
+    <p>
+      The hardware component of Project ENIGMA was designed for tactile, intuitive interaction. Our goal was to simulate the physical behavior of the original Enigma while adapting modern microcontroller-based tools for real-time feedback and user control.
+    </p>
+
+    <h2>🔧 Components Used</h2>
+    <ul>
+      <li><strong>Arduino Nano</strong></li>
+      <li><strong>Rotary Encoder</strong></li>
+      <li><strong>Push Buttons</strong></li>
+      <li><strong>16x2 LCD Display</strong></li>
+      <li><strong>Serial Communication (USB)</strong></li>
+      <li><strong>Low-Pass Filters</strong></li>
+    </ul>
+
+    <h2>🔩 Electronic Components</h2>
+    <p>
+      The following electronic components were used in the hardware design of the Enigma replica:
+    </p>
+    <ul>
+      <li><strong>Arduino Nano:</strong> The microcontroller at the heart of the system, handling input, encryption, and LCD display.</li>
+      <li><strong>16x2 LCD Display:</strong> Displays the rotor states and encrypted characters in real time using I2C interface.</li>
+      <li><strong>Rotary Encoder with Button:</strong> Allows precise rotor offset control; push-to-select functionality used to switch between rotors.</li>
+      <li><strong>Serial Communication:</strong> The Arduino communicates with the GUI running on a PC via USB using serial protocol.</li>
+    </ul>
+
+    <div class="image-gallery">
+      <figure>
+        <img src="images/arduino-nano.jpg" alt="Arduino Nano">
+        <figcaption>Arduino Nano Microcontroller</figcaption>
+      </figure>
+      <figure>
+        <img src="images/lcd-display.jpg" alt="16x2 LCD">
+        <figcaption>16x2 Character LCD Display</figcaption>
+      </figure>
+      <figure>
+        <img src="images/rotary-encoder.jpg" alt="Rotary Encoder">
+        <figcaption>Rotary Encoder with Push Button</figcaption>
+      </figure>
+      <figure>
+        <img src="images/circuit-diagram.jpg" alt="Circuit Diagram">
+        <figcaption>Wiring Diagram: Arduino, LCD, and Encoder</figcaption>
+      </figure>
+      <figure>
+        <img src="images/pcb-layout.jpg" alt="PCB Design">
+        <figcaption>Custom PCB Layout for the Hardware</figcaption>
+      </figure>
+    </div>
+
+    <h2>⚙️ Design Tradeoffs</h2>
+    <p>
+      The system is designed with minimal hardware complexity, offloading most tasks to software for flexibility. The potentiometer control offers analog precision while buttons ensure discrete control where needed. Using SPI/I2C minimized wiring complexity with the display and ensured fast refresh rates.
+    </p>
+
+    <div class="image-gallery">
+      <img src="images/hardware-setup.jpg" alt="Hardware Setup">
+      <img src="images/enigma-circuit.jpg" alt="Circuit Diagram">
+    </div>
+  </main>
+
+  <div class="floating-nav">
+    <a href="design.html">← Back to Design</a>
+    <a href="software.html">Next →</a>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Enigma Project | Created by [..]</p>
+  </footer>
+
+</body>
+</html>
