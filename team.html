@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Week 8 – Project ENIGMA</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: 
+        linear-gradient(130deg, rgba(15,15,27,0.9), rgba(26,26,46,0.8), rgba(22,33,62,0.8), rgba(15,52,96,0.9)),
+        url('images/paperback1.jpg') no-repeat center center fixed;
+      background-blend-mode: overlay;
+      background-size: cover;
+      animation: bgShift 30s ease infinite;
+      color: #674211;
+      overflow-x: hidden;
+    }
+
+    @keyframes bgShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      text-align: center;
+      padding: 60px 20px 30px;
+    }
+
+    header h1 {
+      font-size: 2.6em;
+      color: #000000;
+      text-shadow: 0 0 10px rgba(255,255,255,0.1);
+    }
+
+    header p {
+      font-size: 1.2em;
+      color: #412e06;
+      margin-top: 10px;
+    }
+
+    nav {
+      background: rgba(0, 0, 0, 0.75);
+      padding: 12px;
+      text-align: center;
+    }
+
+    nav a {
+      color: #ffe8c2;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+      transition: color 0.2s ease;
+    }
+
+    nav a:hover {
+      color: #ffb84d;
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.07);
+      border-radius: 18px;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4), inset 0 0 1px rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      transition: all 0.4s ease;
+    }
+
+    main:hover {
+      transform: scale(1.015);
+      background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
+    }
+
+    main h2 {
+      color: #806515;
+      font-size: 1.8em;
+      margin-bottom: 20px;
+    }
+
+    main p {
+      font-size: 1.05em;
+      line-height: 1.7;
+      color: #553b3b;
+    }
+
+    footer {
+      text-align: center;
+      background: rgba(0, 0, 0, 0.85);
+      color: #bbb;
+      padding: 20px;
+      font-size: 0.95em;
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Week 8 – Project ENIGMA</h1>
+    <p>Basic Info</p>
+  </header>
+
+  <nav>
+    <a href="index.html">← Back to Home</a>
+  </nav>
+
+  <main>
+    <h2>Final Week – Wrapping It Up</h2>
+    <p>
+      In Week 8, we focused on integration, documentation, and final testing. All design elements—hardware and software—were merged to create a seamless simulation experience. Bug fixes, performance optimizations, and demo preparation were key highlights of the final phase.
+    </p>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Enigma Project | [...]</p>
+  </footer>
+
+</body>
+</html>
