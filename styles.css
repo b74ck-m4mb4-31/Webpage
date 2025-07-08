@@ -1,0 +1,117 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+  background: url('images/main-bg.webp');
+}
+
+header {
+  background: url('images/title-bg.webp') center;
+  background-attachment: fixed;
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+  position: relative;
+}
+
+header::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+header h1, header p {
+  position: relative;
+  z-index: 2;
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+main {
+  padding: 20px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+#spiral-section {
+  position: relative;
+  height: 1400px;
+  overflow: hidden;
+}
+
+#spiral-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  background: transparent;
+}
+
+footer {
+  text-align: center;
+  background: #1a1a1a;
+  color: white;
+  padding: 15px;
+  width: 100%;
+  position: relative;
+}
+.intro-enigma-img {
+  width: 100%;
+  max-width: 700px;
+  display: ruby-base;
+  margin: 30px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.goal-heading {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 15px;
+}
+
+.goal-desc {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.goal-list {
+  list-style-type: disc;     /* default bullet (circle) */
+  padding-left: 40px;        /* indentation */
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.8;
+  margin-top: 10px;
+}
+
+.how-heading {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 15px;
+}
+.how-section {
+  font-size: 1.1rem;
+  color: #444;
+  margin-bottom: 20px;
+}
+.Sample_gui{
+  width: 100%;
+  max-width: 800px;
+  display: block;
+  margin: 20px auto;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}

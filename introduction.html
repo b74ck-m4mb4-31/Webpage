@@ -3,177 +3,82 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Introduction - Project ENIGMA</title>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'JetBrains Mono', monospace;
-      background: 
-        linear-gradient(130deg, rgba(15,15,27,0.9), rgba(26,26,46,0.8), rgba(22,33,62,0.8), rgba(15,52,96,0.9)),
-        url('images/paperback1.jpg') no-repeat center center fixed;
-      background-blend-mode: overlay;
-      background-size: cover;
-      background-position: 0% 50%;
-      animation: bgShift 30s ease infinite;
-      color: #674211;
-      overflow-x: hidden;
-    }
-
-    @keyframes bgShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    header {
-      text-align: center;
-      padding: 60px 20px 30px;
-    }
-
-    header h1 {
-      font-size: 2.8em;
-      color: #000000;
-      text-shadow: 0 0 10px rgba(255,255,255,0.2);
-    }
-
-    header p {
-      font-size: 1.2em;
-      color: #412e06;
-      margin-top: 10px;
-    }
-
-    main {
-      max-width: 960px;
-      margin: 40px auto;
-      padding: 40px;
-      background: rgba(255, 255, 255, 0.07);
-      border-radius: 18px;
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.4), inset 0 0 1px rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      transition: all 0.4s ease;
-    }
-
-    main:hover {
-      transform: scale(1.015);
-      background: rgba(255, 255, 255, 0.1);
-      box-shadow: 0 0 50px rgba(0, 255, 255, 0.2);
-    }
-
-    main h2 {
-      color: #806515;
-      margin-bottom: 25px;
-      font-size: 1.8em;
-    }
-
-    main p, main ul {
-      font-size: 1.05em;
-      line-height: 1.7;
-      color: #553b3b;
-    }
-
-    main ul {
-      padding-left: 20px;
-      list-style: square;
-    }
-
-    .floating-nav {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      display: flex;
-      gap: 10px;
-      z-index: 1000;
-    }
-
-    .floating-nav a {
-      background-color: #ff6f61;
-      color: rgb(59, 49, 19);
-      padding: 12px 20px;
-      text-decoration: none;
-      font-weight: bold;
-      border-radius: 8px;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-      transition: background 0.3s ease, transform 0.2s ease;
-    }
-
-    .floating-nav a:hover {
-      background-color: #ff3b2e;
-      transform: scale(1.05);
-    }
-
-    @media (max-width: 600px) {
-      .floating-nav {
-        flex-direction: column;
-        right: 10px;
-        bottom: 10px;
-      }
-      .floating-nav a {
-        padding: 10px 16px;
-        font-size: 0.9em;
-      }
-    }
-
-    footer {
-      text-align: center;
-      background: rgba(0, 0, 0, 0.85);
-      color: #bbb;
-      padding: 20px;
-      font-size: 0.95em;
-    }
-  </style>
+  <title>PROJECT - ENIGMA</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
   <header>
-    <h1>Introduction - Project ENIGMA</h1>
-    <p>An Interactive Simulation of History's Most Infamous Cipher Machine</p>
+    <h1>Introduction</h1>
+    <p>What, Where and How of our Goal</p>
   </header>
 
   <main>
-    <h2>About Project ENIGMA</h2>
-    <p>
-      <strong>Project ENIGMA</strong> is an interactive cryptographic simulation platform inspired by the historic Enigma cipher machine used during World War II. Our goal was to make encryption not just a theoretical subject but a hands-on experience—combining historical engineering with modern interface design and hardware interaction.
-    </p>
+      <h1> WHAT are we handling?</h1>
+      <p>
+        The ENIGMA Machine applied encryption through a system of <strong>rotors</strong>, <strong>reflectors</strong> and <strong>plugboard</strong>. </p>
+        <br>
+        <img src="images/enigma.jpg" alt="Enigma Machine" class="intro-enigma-img" /> 
 
-    <p>
-      Built with a strong foundation in digital logic, optimization, and embedded systems, the project utilizes physical components (like rotary encoders or potentiometers) to simulate real-time user interaction with the Enigma machine. Upon launching the program, users are greeted with a vintage-style menu interface where they can rotate knobs to navigate and press a button to dive into one of several immersive "modes" or mini-games.
-    </p>
+        <p>
+        Each <strong>rotor </strong> has 26 positions, corresponding to the letters of the alphabet. Most models included 3 rotors arranged adjacently 
+        along a spindle. Some even fancied 4 or 5 rotors, which increased the complexity. When a key
+        is pressed, one or more rotors rotate on the spindle. On the sides of the rotors are a series 
+        of electrical contacts that, after rotation, line up with contacts on the other rotors or fixed 
+        wiring on either end of the spindle. When the rotors are properly aligned, each key on the keyboard 
+        is connected to a unique electrical pathway through the series of contacts and internal wiring. 
+        Current, typically from a battery, flows through the pressed key, into the newly configured set of 
+        circuits and back out again, ultimately lighting one display lamp, which shows the output letter
+      </p>
+<br>
+      <p>
+The <strong> reflector </strong> ensures the encryption is reciprocal. It reflected the electrical signal Back
+through the rotos. This doubled the number of possible connections and ensured that the encryption 
+was symmetrical. However, this design introduced a <strong> flaw</strong>.
+No letter could ever encrypt to itself. This weakness was later exploited by Allied codebreakers.
+      </p>
+      <br>
 
-    <p>
-      There are <strong>five core experiences</strong> within the simulator:
-    </p>
-    <ul>
-      <li><strong>Interactive Enigma:</strong> A full mechanical simulation of the original Enigma machine where users can input plaintext using hardware and observe the encrypted output character-by-character on an LCD or graphical display.</li>
-      <li><strong>Codebreaker Challenge:</strong> A puzzle game mode where users attempt to decrypt a given ciphertext using trial-and-error rotor and plugboard settings—an homage to Bletchley Park's codebreakers.</li>
-      <li><strong>Rotor Rush:</strong> A fast-paced arcade mini-game where players must align rotors with randomly shifting targets before time runs out, reinforcing their understanding of stepping mechanics.</li>
-      <li><strong>Plugboard Puzzle:</strong> A visual logic game focused on simulating plugboard wiring. Users must match input-output mappings to successfully unscramble messages.</li>
-      <li><strong>Historical Mode:</strong> A guided tour mode that overlays real Enigma history with the simulator. Users "play" as Allied cryptanalysts deciphering messages with clues and wartime context.</li>
-    </ul>
+      <p>
+        The <strong> plugboard </strong> however, was the beast. It was a panel with 26 jacks (A-Z), allowing pairs of letters to be swapped before and after the signal passed through
+        the rotors. The plugboard was responsible for over 60% of the machine's encryption strength and made over 100 billion possible 
+        configurations. It was one of the main reasons Enigma was considered unbreakable
+      </p>
+      <br>
+      This is what we aim to achieve with mechanics and code.
+      <br> <br> <br> <br> <br> <br>
 
-    <p>
-      Throughout the project, we incorporated key concepts from the course, including:
-      <em>modular programming, simulation of state machines, serial communication with microcontrollers, encryption logic, matrix-style I/O, optimization for limited memory systems,</em> and <em>graphic rendering on embedded displays.</em>
-    </p>
 
-    <p>
-      <strong>Project ENIGMA</strong> is not only a tribute to one of the most iconic encryption machines in history but also a celebration of embedded computing, interactive design, and the thrill of decoding secrets. It's an experience where history meets engineering—and the user becomes the codebreaker.
-    </p>
+  <section class="goal-section">
+  <h1 class="goal-heading">WHERE are we going?</h1>
+  <p class="goal-desc">
+    We aim to make a version of ENIGMA that combines modern electronics.<br>
+    Following are the plans:
+  </p>
+  <ul class="goal-list">
+    <li>Use Arduino Micro-controller to enable serial communication</li>
+    <li>Code a GUI, either in JavaScript or Python to send messages</li>
+    <li>Use LCD display to display the encoded message</li>
+    <li>Apply rotary encoder for real-time rotor adjustment</li>
+    <li>Implement ProtoThreads and PIC32</li>
+  </ul>
+</section>
+
+<br> <br> <br> <br> <br> <br>
+<section class="how-section">
+<h1 class="how-heading"> HOW do we go about it?</h1>
+<p>
+  An entire software simulation of the ENIGMA machine is possible, which is the first part of our journey. It can either be through JavaScript
+  or Python. The process of making a working simulation will help us understand the mechanics intricately.
+  <br>
+  Next step would be to think about all the hardware components that we can add to make it more interactive. As, given above, some
+  would be a <strong>rotary encoder</strong> for real-time rotor adjustment, a <strong>LCD display</strong> to show the encoded message, and a <strong>plugboard</strong> to swap letters. 
+  </p>
+  </section>
   </main>
-
-  <div class="floating-nav">
-    <a href="index.html">← Back to Home</a>
-  </div>
 
   <footer>
     <p>&copy; 2025 Enigma Project | Created by [..]</p>
   </footer>
-
 </body>
 </html>

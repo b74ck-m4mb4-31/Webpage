@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>PROJECT - ENIGMA</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+      <h1>GUI - Python</h1>
+      <p>Software simulation of the ENIGMA Machine</p>
+  </header>
+<main>
+  <p>Starting with a GUI is a great way of understanding the machine in its intricacy. It also 
+    removes the need for physical hardware, allowing us to focus on logic and design. We, however,
+    can later add a physical interface to the GUI.
+    <br><br>
+    The GUI is coded in Python using the PySimpleGUI library.
+  </p>
+  <p>
+   We would first start with a simple GUI that allows users to input a message,
+    select the rotor settings, and then encrypt the message.
+  </p>
+  <br><br>
+  The sample of the GUI is shown below:
+  <img src="images/gui_1.png" alt="Sample GUI" class="Sample_gui" />
+
+  <p>
+    To begin with, we need to initialize the GUI with necessary components,
+    such as the rotor permutations, reflector settings, and the notches.
+   <br>
+   Below is the code snippet:
+  <img src="images/gui_2.png" alt="Sample GUI Initialization" class="Sample_gui" />
+  </p>
+
+  <p>
+    Next step would be to include all the functions that we might use.
+    Those include inverting wiring, encryption logic, parsing plugboard and stepping 
+    through rotors.
+
+    <img src="images/gui_3.png" alt="Sample GUI Functions" class="Sample_gui" />
+    <p>
+      When we press "Send" on our Enigma GUI, each letter goes through a transformation — just like in the real Enigma machine. Let's unpack the core logic behind this encryption process without getting buried in code.
+
+<h3>First: Reversing the Rotors — invert_wiring(wiring)</h3>
+Rotors in the Enigma machine are basically scrambled alphabets. For encryption, we go forwards through the rotors and then backwards after reflection.
+But rotors don’t naturally come with a "reverse gear" — so we build one.
+<br>
+This function helps us do that. It creates the inverse mapping of a rotor.
+
+    Imagine this: If rotor I maps A → E, then the inverse should make sure E → A.
+    This function figures out the reverse lookup for every letter.
+
+<br><br>
+
+<h3>Setting Up the Plugboard — parse_plugboard(raw) </h3>
+Before the rotors even touch your input, there's the plugboard.
+You can think of the plugboard as a simple wire-swapping panel.
+If you connect A to B, then every A typed becomes B, and every B becomes A.
+<br>
+This function takes a string like "A-B, C-D, M-N" and:
+<br>
+   <li>Breaks it down into pairs </li>
+   <li>Builds a mapping for each letter </li>
+   <li>Ensures that the mapping is symmetric — A → B means B → A </li>
+It also makes sure that letters not included in the swaps just map to themselves.
+<br><br>
+<h3> Rotors Start to Turn — step_rotors(positions, rotor_labels)</h3>
+<br>
+The Enigma machine isn’t just about static substitution — the real magic is that the rotors rotate after each letter, changing the encryption every time.
+<br>
+Here’s how rotor stepping works:
+<br><br>
+    <li>Rotor I always moves one step forward with each key.</li>
+    <li>If Rotor I hits a specific notch (e.g., Q), then Rotor II steps too.</li>
+    <li>If Rotor II hits its notch, Rotor III follows.</li>
+<br>
+This is called double stepping, and it’s why the Enigma was so powerful — the encryption changed with every letter typed.
+<br><br>
+    </p>
+    <img src="images/gui_4.png" alt="Sample GUI Functions Continued" class="Sample_gui" />
+
+<h3>The Encryption Journey — enigma_encrypt_char(c, positions, plugboard) </h3>
+Let us walk through what actually happens to a letter like H when you hit "Send":
+<br>
+<br>
+<h4>1. Plugboard Preprocessing </h4>
+We check if H is plugged to another letter (say M). If yes, we swap it.
+<br><br>
+<h4> 2. Rotor Forward Pass</h4>
+The letter is passed through 3 rotors:
+
+  <li>Each rotor is offset by its current position </li>
+  <li>The character is substituted based on rotor wiring </li>
+  <li>Then it's “de-offset” back into the correct alignment </li>
+<br>
+So, the letter has gone through:
+<br>
+    Rotor 1 → Rotor 2 → Rotor 3
+<br><br>
+<h4>3. Reflection</h4>
+The reflector bounces the signal back. If the character was J, maybe it now becomes P.
+<br><br>
+<h4>4. Rotor Reverse Pass</h4>
+Now we go backwards:
+<br>
+    Rotor 3 (inverted) → Rotor 2 (inverted) → Rotor 1 (inverted)
+<br>
+To do this, we use that invert_wiring() function we saw earlier.
+<br><br>
+<h4>5. Plugboard Postprocessing</h4>
+Finally, we check the plugboard again. Maybe that reflected output is plugged into something else. We swap it one last time.
+
+<br><br>
+Now we get our encrypted output.
+<br>,<br>
+Now our task would be to display this output on the GUI. The layout function of PySimpleGUI helps.
+    <img src="images/gui_5.png" alt="Sample GUI Layout" class="Sample_gui" />
+    </p>
+
+
+
+
+    <section>
+    <h2>GUI Logic and User Interactions</h2>
+
+    <h3>Window Setup</h3>
+    <pre><code>window = sg.Window('Enigma Machine Simulator', layout, finalize=True)</code></pre>
+      <br>
+    <h3>Event Loop</h3>
+    <pre><code>while True:
+    event, values = window.read(timeout=20)</code></pre>
+    <p>This loop keeps the GUI responsive. If the window is closed, the loop exits. If the user clicks <strong>Send</strong>, encryption begins.</p>
+      <br>
+    <h3>Handling the Send Event</h3>
+    <p>When the user presses <code>Send</code>:</p>
+    <ul>
+      <li>Input message and rotor positions are read</li>
+      <li>Plugboard is parsed</li>
+      <li>Each letter is encrypted and rotors are stepped</li>
+      <li>The rotor positions are updated in the GUI</li>
+      <li>The result is shown in the output display</li>
+    </ul>
+      <br>
+    <h3>Rotor Controls Sync</h3>
+    <p>To keep rotor controls intuitive:</p>
+    <ul>
+      <li>Typing a letter updates the listbox</li>
+      <li>Selecting from the listbox updates the input field</li>
+    </ul>
+
+      <br>
+
+    <h3>Serial Reset (Optional)</h3>
+    <pre><code># if event == 'rtg' and values['r_en']:
+#     ser.send_break()</code></pre>
+    <p>This is a placeholder to reset connected hardware like a PIC or Arduino, if you’re using one.</p>
+
+    <br>
+    <h3> Exiting</h3>
+    <pre><code>window.close()</code></pre>
+    <p>Shuts the simulator window cleanly.</p>
+  </section>
+  <br><br>
+  <img src="images/gui_6.png" alt="Sample GUI Output" class="Sample_gui" />
+  <img src="images/gui_7.png" alt="Sample GUI Output" class="Sample_gui" />
+  <section>
+    <h2> Conclusion</h2>
+    <p>The simulator brings the mechanics of the Enigma machine to life — from plugboard swaps to rotor shifting and reflector bounces — all wrapped in an interactive and educational GUI.</p>
+    <p><strong>Try typing “AAAAA”</strong> and watch how the output changes with each keystroke due to rotor movement!</p>
+  </section>
+
+  <p>
+    Sample GUI:
+    <img src="images/gui_8.png" alt="Sample GUI Output" class="Sample_gui" />
+  </p>
+</main>
+  <footer>
+    <p>&copy; 2025 Enigma Project | Created by [..]</p>
+  </footer>
+</body>
+</html>
